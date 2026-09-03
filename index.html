@@ -3,1109 +3,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ClassHub</title>
+<title>ClassHub - Sơ đồ lớp</title>
 
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
+/* =========================
+   CÀI ĐẶT CHUNG & NỀN TRẮNG
+========================= */
 * {
     box-sizing: border-box;
 }
 
-:root {
-    --bg: #f5f6f8;
-    --surface: #ffffff;
-    --surface-2: #f0f2f5;
-
-    --text: #171717;
-    --muted: #6b7280;
-
-    --border: #d7dbe0;
-    --grid: #e8ebef;
-
-    --accent: #222222;
-}
-
-
-/* DARK MODE */
-
-body.dark {
-    --bg: #111111;
-    --surface: #1b1b1b;
-    --surface-2: #242424;
-
-    --text: #f5f5f5;
-    --muted: #a5a5a5;
-
-    --border: #3a3a3a;
-    --grid: #292929;
-
-    --accent: #ffffff;
-}
-
-
-/* =====================================================
-   BODY
-===================================================== */
-
 body {
-
     margin: 0;
-
-    background: var(--bg);
-
-    color: var(--text);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    transition:
-        background 0.25s,
-        color 0.25s;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8; /* Background tổng thể sáng */
+    color: #1a1a1a;
 }
 
-
-/* =====================================================
-   TOP BAR
-===================================================== */
-
+/* =========================
+   THANH ĐẦU TRANG (ĐEN CHỮ TRẮNG)
+========================= */
 .topbar {
-
     height: 70px;
-
-    background: var(--surface);
-
-    border-bottom:
-        1px solid var(--border);
-
+    background: #121212; /* Thanh màu đen */
+    color: #ffffff;      /* Chữ màu trắng */
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
-    padding:
-        0 28px;
-
+    padding: 0 30px;
     position: sticky;
-
     top: 0;
-
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-
 
 .logo {
-
     font-size: 22px;
-
     font-weight: 700;
-
-    letter-spacing: -0.5px;
 }
 
-
-.actions {
-
+.top-buttons {
     display: flex;
-
-    gap: 8px;
+    gap: 12px;
 }
 
-
-.btn {
-
-    border:
-        1px solid var(--border);
-
-    background: var(--surface);
-
-    color: var(--text);
-
-    padding:
-        9px 14px;
-
+button {
+    border: 1px solid #333;
     border-radius: 8px;
-
-    cursor: pointer;
-
+    padding: 9px 16px;
     font-size: 14px;
-
+    font-weight: 600;
+    cursor: pointer;
+    background: #2a2a2a;
+    color: #ffffff;
     transition: 0.2s;
 }
 
-
-.btn:hover {
-
-    background: var(--surface-2);
-
+button:hover {
+    background: #3d3d3d;
 }
 
-
-.btn.primary {
-
-    background: var(--accent);
-
-    color:
-        var(--bg);
-
-    border-color:
-        var(--accent);
+.clear-btn {
+    background: #d9534f;
+    border-color: #d9534f;
 }
 
+.clear-btn:hover {
+    background: #c9302c;
+}
 
-/* =====================================================
-   PAGE
-===================================================== */
-
+/* =========================
+   KHU VỰC SƠ ĐỒ
+========================= */
 .page {
-
-    padding:
-        30px;
-
-    overflow-x: auto;
+    padding: 30px;
 }
-
 
 .classroom {
-
-    width: 1400px;
-
-    min-height: 1100px;
-
-    margin:
-        0 auto;
-
-    padding:
-        35px 45px;
-
-    background-color:
-        var(--surface);
-
-    /*
-       GIẤY Ô LY
-    */
-
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+    padding: 35px;
+    min-height: 900px;
+    background-color: #ffffff;
     background-image:
-
-        linear-gradient(
-            var(--grid) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            90deg,
-            var(--grid) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        20px 20px;
-
-    border:
-        1px solid var(--border);
-
-    box-shadow:
-        0 8px 30px rgba(0,0,0,0.08);
-
-    position: relative;
+        linear-gradient(#e5e9f0 1px, transparent 1px),
+        linear-gradient(90deg, #e5e9f0 1px, transparent 1px);
+    background-size: 24px 24px;
+    border-radius: 12px;
+    border: 1px solid #dcdfe6;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
-
-/* =====================================================
-   CLASSROOM HEADER
-===================================================== */
-
-.classroom-header {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        1fr
-        1fr
-        1fr;
-
-    margin-bottom:
-        45px;
-
-    align-items:
-        start;
-}
-
-
-/*
-   BÀN GIÁO VIÊN
-   nằm trước TỔ 1
-*/
-
-.teacher-area {
-
-    grid-column:
-        1;
-
+/* =========================
+   ĐẦU LỚP: GV BÊN TỔ 1 - CỬA BÊN TỔ 4
+========================= */
+.class-header {
     display: flex;
-
-    justify-content:
-        center;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-
-.teacher {
-
-    width: 190px;
-
-    padding:
-        13px;
-
-    text-align:
-        center;
-
-    border:
-        2px solid var(--text);
-
-    background:
-        var(--surface);
-
-    font-size:
-        14px;
-
-    font-weight:
-        700;
+.teacher-table {
+    font-weight: 700;
+    padding: 14px 28px;
+    border: 2px solid #2c3e50;
+    background: #ffffff;
+    border-radius: 6px;
+    color: #2c3e50;
 }
-
-
-/*
-   CỬA VÀO
-   nằm trước TỔ 4
-*/
-
-.door-area {
-
-    grid-column:
-        4;
-
-    display: flex;
-
-    justify-content:
-        center;
-}
-
 
 .door {
-
-    width: 150px;
-
-    padding:
-        13px;
-
-    text-align:
-        center;
-
-    border:
-        2px solid var(--text);
-
-    background:
-        var(--surface);
-
-    font-size:
-        14px;
-
-    font-weight:
-        700;
+    font-weight: 700;
+    padding: 12px 24px;
+    border: 2px solid #e67e22;
+    background: #fff8f0;
+    color: #d35400;
+    border-radius: 6px;
 }
 
-
-/* =====================================================
-   TITLE
-===================================================== */
-
+/* =========================
+   TIÊU ĐỀ
+========================= */
 .title {
-
-    text-align:
-        center;
-
-    margin-bottom:
-        35px;
+    text-align: center;
+    margin-bottom: 35px;
 }
-
 
 .title h1 {
-
-    margin:
-        0;
-
-    font-size:
-        28px;
-
-    letter-spacing:
-        1px;
+    margin: 0;
+    font-size: 28px;
+    color: #111;
 }
-
 
 .title p {
-
-    margin:
-        8px 0 0;
-
-    color:
-        var(--muted);
-
-    font-size:
-        13px;
+    margin-top: 6px;
+    color: #666;
+    font-size: 14px;
 }
 
-
-/* =====================================================
-   FOUR TEAMS
-===================================================== */
-
+/* =========================
+   4 TỔ
+========================= */
 .teams {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap:
-        20px;
-
-    align-items:
-        start;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
-
-
-/* =====================================================
-   TEAM
-===================================================== */
 
 .team {
-
-    min-width:
-        0;
-
-    padding:
-        0 12px 25px;
-
-    border-left:
-        1px solid var(--border);
-
-    border-right:
-        1px solid var(--border);
+    min-width: 0;
+    border-left: 2px solid #dcdfe6;
+    border-right: 2px solid #dcdfe6;
+    padding: 0 10px 20px;
+    background: rgba(255, 255, 255, 0.6);
 }
-
 
 .team-title {
-
-    text-align:
-        center;
-
-    padding:
-        12px 5px;
-
-    margin-bottom:
-        22px;
-
-    border-bottom:
-        2px solid var(--text);
-
-    font-weight:
-        700;
-
-    font-size:
-        17px;
-
-    letter-spacing:
-        1px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1a1a1a;
 }
 
-
-/* =====================================================
-   DESKS
-===================================================== */
-
+/* =========================
+   BÀN HỌC (2 HỌC SINH CẠNH NHAU)
+========================= */
 .desks {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
-
-
-/* =====================================================
-   ONE DESK
-===================================================== */
 
 .desk {
-
-    background:
-        var(--surface);
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        6px;
-
-    padding:
-        9px;
-
-    transition:
-        0.2s;
+    background: #ffffff;
+    border: 1px solid #b0bec5;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
-
 
 .desk:hover {
-
-    border-color:
-        var(--text);
-
-    box-shadow:
-        0 3px 10px rgba(0,0,0,0.08);
+    border-color: #333;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-
 
 .desk-number {
-
-    font-size:
-        10px;
-
-    color:
-        var(--muted);
-
-    font-weight:
-        700;
-
-    margin-bottom:
-        7px;
-
-    text-align:
-        center;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-
-/*
-   HAI HỌC SINH CẠNH NHAU
-*/
-
-.students {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        7px;
+/* Sắp xếp 2 ô học sinh nằm ngang cạnh nhau */
+.seats-row {
+    display: flex;
+    gap: 8px;
 }
-
-
-/* =====================================================
-   STUDENT INPUT
-===================================================== */
 
 .student {
-
-    width:
-        100%;
-
-    height:
-        36px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        5px;
-
-    background:
-        var(--surface-2);
-
-    color:
-        var(--text);
-
-    padding:
-        0 8px;
-
-    font-size:
-        12px;
-
-    outline:
-        none;
+    flex: 1;
+    width: 50%;
+    height: 36px;
+    border: 1px solid #cfd8dc;
+    border-radius: 4px;
+    outline: none;
+    background: #fafafa;
+    color: #000000;
+    font-size: 13px;
+    padding: 0 8px;
+    font-weight: 600;
+    text-align: center;
 }
-
-
-.student:focus {
-
-    border-color:
-        var(--text);
-
-    background:
-        var(--surface);
-}
-
 
 .student::placeholder {
-
-    color:
-        var(--muted);
+    color: #a0aec0;
+    font-weight: 400;
+    font-style: italic;
 }
 
+.student:focus {
+    background: #ffffff;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
 
-/* =====================================================
+/* =========================
    FOOTER
-===================================================== */
-
+========================= */
 .class-footer {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    margin-top:
-        40px;
-
-    color:
-        var(--muted);
-
-    font-size:
-        12px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #777;
+    font-size: 13px;
 }
 
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width: 1000px) {
-
-    .page {
-
-        padding:
-            10px;
-
-    }
-
-    .classroom {
-
-        margin:
-            0;
-
-    }
-
+/* =========================
+   RESPONSIVE & PRINT
+========================= */
+@media (max-width: 1100px) {
+    .teams { grid-template-columns: repeat(2, 1fr); }
 }
 
-
-/* =====================================================
-   PRINT
-===================================================== */
+@media (max-width: 650px) {
+    .teams { grid-template-columns: 1fr; }
+    .topbar { padding: 0 15px; }
+    .page { padding: 10px; }
+}
 
 @media print {
-
-    .topbar {
-
-        display:
-            none;
-
-    }
-
-    body {
-
-        background:
-            white;
-
-    }
-
-    .page {
-
-        padding:
-            0;
-
-    }
-
-    .classroom {
-
-        box-shadow:
-            none;
-
-        border:
-            none;
-    }
-
+    .topbar { display: none; }
+    body { background: white; }
+    .page { padding: 0; }
+    .classroom { box-shadow: none; border: none; }
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     TOP BAR
-===================================================== -->
-
+<!-- THANH CÔNG CỤ (ĐEN) -->
 <header class="topbar">
-
-    <div class="logo">
-        🎓 ClassHub
+    <div class="logo">🎓 ClassHub</div>
+    <div class="top-buttons">
+        <button onclick="saveSeats()">💾 Lưu sơ đồ</button>
+        <button onclick="window.print()">🖨️ In</button>
+        <button class="clear-btn" onclick="clearSeats()">🗑️ Xóa tên</button>
     </div>
-
-    <div class="actions">
-
-        <button
-            class="btn"
-            onclick="toggleDarkMode()"
-            id="themeButton"
-        >
-            🌙 Dark
-        </button>
-
-        <button
-            class="btn primary"
-            onclick="saveClass()"
-        >
-            💾 Lưu
-        </button>
-
-        <button
-            class="btn"
-            onclick="window.print()"
-        >
-            🖨️ In
-        </button>
-
-    </div>
-
 </header>
 
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
+<!-- TRANG SƠ ĐỒ -->
 <main class="page">
+    <div class="classroom">
 
+        <!-- ĐẦU LỚP: GV TRƯỚC TỔ 1, CỬA TRƯỚC TỔ 4 -->
+        <div class="class-header">
+            <div class="teacher-table">🧑‍🏫 BÀN GIÁO VIÊN (Tổ 1)</div>
+            <div class="door">🚪 CỬA VÀO (Tổ 4)</div>
+        </div>
 
-<div class="classroom">
+        <!-- TIÊU ĐỀ -->
+        <div class="title">
+            <h1>SƠ ĐỒ LỚP HỌC</h1>
+            <p>Nhập tên 2 học sinh ngồi cạnh nhau trong mỗi bàn</p>
+        </div>
 
+        <!-- 4 TỔ -->
+        <div class="teams">
 
-    <!-- =================================================
-         TEACHER + DOOR
-    ================================================== -->
+            <!-- TỔ 1 -->
+            <section class="team">
+                <div class="team-title">TỔ 1</div>
+                <div class="desks" id="team-1"></div>
+            </section>
 
-    <div class="classroom-header">
+            <!-- TỔ 2 -->
+            <section class="team">
+                <div class="team-title">TỔ 2</div>
+                <div class="desks" id="team-2"></div>
+            </section>
 
+            <!-- TỔ 3 -->
+            <section class="team">
+                <div class="team-title">TỔ 3</div>
+                <div class="desks" id="team-3"></div>
+            </section>
 
-        <!-- BÀN GIÁO VIÊN -->
-
-        <div class="teacher-area">
-
-            <div class="teacher">
-
-                🧑‍🏫 BÀN GIÁO VIÊN
-
-            </div>
+            <!-- TỔ 4 -->
+            <section class="team">
+                <div class="team-title">TỔ 4</div>
+                <div class="desks" id="team-4"></div>
+            </section>
 
         </div>
 
-
-        <!-- Ô TRỐNG -->
-
-        <div></div>
-
-        <div></div>
-
-
-        <!-- CỬA -->
-
-        <div class="door-area">
-
-            <div class="door">
-
-                🚪 CỬA VÀO
-
-            </div>
-
+        <!-- CUỐI LỚP -->
+        <div class="class-footer">
+            <div>ClassHub • Sơ đồ lớp</div>
+            <div>Phía sau lớp học</div>
         </div>
 
     </div>
-
-
-
-    <!-- =================================================
-         TITLE
-    ================================================== -->
-
-    <div class="title">
-
-        <h1>SƠ ĐỒ LỚP</h1>
-
-        <p>
-            Nhập tên học sinh vào từng vị trí
-        </p>
-
-    </div>
-
-
-
-    <!-- =================================================
-         FOUR TEAMS
-    ================================================== -->
-
-    <div class="teams">
-
-
-        <!-- ==============================
-             TỔ 1
-        =============================== -->
-
-        <section class="team">
-
-            <div class="team-title">
-                TỔ 1
-            </div>
-
-            <div
-                class="desks"
-                data-team="1"
-            ></div>
-
-        </section>
-
-
-
-        <!-- ==============================
-             TỔ 2
-        =============================== -->
-
-        <section class="team">
-
-            <div class="team-title">
-                TỔ 2
-            </div>
-
-            <div
-                class="desks"
-                data-team="2"
-            ></div>
-
-        </section>
-
-
-
-        <!-- ==============================
-             TỔ 3
-        =============================== -->
-
-        <section class="team">
-
-            <div class="team-title">
-                TỔ 3
-            </div>
-
-            <div
-                class="desks"
-                data-team="3"
-            ></div>
-
-        </section>
-
-
-
-        <!-- ==============================
-             TỔ 4
-        =============================== -->
-
-        <section class="team">
-
-            <div class="team-title">
-                TỔ 4
-            </div>
-
-            <div
-                class="desks"
-                data-team="4"
-            ></div>
-
-        </section>
-
-
-    </div>
-
-
-
-    <!-- =================================================
-         FOOTER
-    ================================================== -->
-
-    <div class="class-footer">
-
-        <span>
-            ClassHub
-        </span>
-
-        <span>
-            Sơ đồ lớp • 4 tổ
-        </span>
-
-    </div>
-
-
-</div>
-
-
 </main>
 
-
-
 <script>
-
-/* =====================================================
-   TẠO 10 BÀN CHO MỖI TỔ
-===================================================== */
-
-function createDesks() {
-
-    const allTeams =
-        document.querySelectorAll(".desks");
-
-
-    allTeams.forEach((team) => {
-
-        for (
-            let i = 1;
-            i <= 10;
-            i++
-        ) {
-
-            const desk =
-                document.createElement("div");
-
-            desk.className =
-                "desk";
-
-
-            desk.innerHTML = `
-
-                <div class="desk-number">
-                    BÀN ${String(i).padStart(2, "0")}
+// Tạo động 10 bàn cho mỗi tổ với 2 HS ngồi cạnh nhau
+function renderDesks() {
+    for (let t = 1; t <= 4; t++) {
+        const teamContainer = document.getElementById(`team-${t}`);
+        let html = '';
+        for (let i = 1; i <= 10; i++) {
+            const deskNo = String(i).padStart(2, '0');
+            html += `
+                <div class="desk">
+                    <div class="desk-number">Bàn ${deskNo}</div>
+                    <div class="seats-row">
+                        <input class="student" placeholder="HS 1">
+                        <input class="student" placeholder="HS 2">
+                    </div>
                 </div>
-
-                <div class="students">
-
-                    <input
-                        class="student"
-                        placeholder="Học sinh 1"
-                    >
-
-                    <input
-                        class="student"
-                        placeholder="Học sinh 2"
-                    >
-
-                </div>
-
             `;
-
-
-            team.appendChild(desk);
-
         }
-
-    });
-
+        teamContainer.innerHTML = html;
+    }
 }
 
-
-/* =====================================================
-   LƯU DỮ LIỆU
-===================================================== */
-
-function saveClass() {
-
-    const inputs =
-        document.querySelectorAll(".student");
-
-    const data = [];
-
-
-    inputs.forEach((input) => {
-
-        data.push(input.value);
-
-    });
-
-
-    localStorage.setItem(
-        "classHubStudents",
-        JSON.stringify(data)
-    );
-
-
-    alert(
-        "✅ Đã lưu sơ đồ lớp!"
-    );
-
+// Lưu dữ liệu vào LocalStorage
+function saveSeats() {
+    const students = document.querySelectorAll(".student");
+    const names = Array.from(students).map(input => input.value);
+    localStorage.setItem("classHubStudents", JSON.stringify(names));
+    alert("✅ Đã lưu sơ đồ lớp!");
 }
 
-
-/* =====================================================
-   LOAD DỮ LIỆU
-===================================================== */
-
-function loadClass() {
-
-    const saved =
-        localStorage.getItem(
-            "classHubStudents"
-        );
-
-
+// Tải dữ liệu đã lưu
+function loadSeats() {
+    const saved = localStorage.getItem("classHubStudents");
     if (!saved) return;
-
-
-    const data =
-        JSON.parse(saved);
-
-
-    const inputs =
-        document.querySelectorAll(".student");
-
-
-    inputs.forEach(
-        (input, index) => {
-
-            if (
-                data[index] !== undefined
-            ) {
-
-                input.value =
-                    data[index];
-
-            }
-
+    const names = JSON.parse(saved);
+    const students = document.querySelectorAll(".student");
+    students.forEach((input, index) => {
+        if (names[index] !== undefined) {
+            input.value = names[index];
         }
-    );
-
+    });
 }
 
-
-/* =====================================================
-   DARK MODE
-===================================================== */
-
-function toggleDarkMode() {
-
-    document.body.classList.toggle(
-        "dark"
-    );
-
-
-    const dark =
-        document.body.classList.contains(
-            "dark"
-        );
-
-
-    localStorage.setItem(
-        "classHubDarkMode",
-        dark
-    );
-
-
-    updateThemeButton();
-
-}
-
-
-/* =====================================================
-   BUTTON DARK MODE
-===================================================== */
-
-function updateThemeButton() {
-
-    const button =
-        document.getElementById(
-            "themeButton"
-        );
-
-
-    const dark =
-        document.body.classList.contains(
-            "dark"
-        );
-
-
-    if (dark) {
-
-        button.innerHTML =
-            "☀️ Light";
-
-    } else {
-
-        button.innerHTML =
-            "🌙 Dark";
-
+// Xóa tất cả dữ liệu
+function clearSeats() {
+    if (confirm("Bạn có chắc muốn xóa toàn bộ tên học sinh?")) {
+        document.querySelectorAll(".student").forEach(input => input.value = "");
+        localStorage.removeItem("classHubStudents");
     }
-
 }
 
-
-/* =====================================================
-   LOAD DARK MODE
-===================================================== */
-
-function loadTheme() {
-
-    const dark =
-        localStorage.getItem(
-            "classHubDarkMode"
-        );
-
-
-    if (dark === "true") {
-
-        document.body.classList.add(
-            "dark"
-        );
-
-    }
-
-
-    updateThemeButton();
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-createDesks();
-
-loadClass();
-
-loadTheme();
-
+// Chạy khởi tạo khi trang tải xong
+window.addEventListener("DOMContentLoaded", () => {
+    renderDesks();
+    loadSeats();
+});
 </script>
-
 
 </body>
 </html>
