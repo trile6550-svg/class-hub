@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ClassHub - Sơ đồ lớp</title>
+
+<style>
+
+/* =========================
+   CÀI ĐẶT CHUNG
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #24364b;
+}
+
+
+/* =========================
+   THANH ĐẦU TRANG
+========================= */
+
+.topbar {
+    height: 80px;
+    background: #ffffff;
+    border-bottom: 1px solid #d7dee5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.top-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 11px 17px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    background: #24364b;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.clear-btn {
+    background: #d9534f;
+}
+
+
+/* =========================
+   KHU VỰC SƠ ĐỒ
+========================= */
+
+.page {
+    padding: 30px;
+}
+
+.classroom {
+
+    width: 100%;
+    max-width: 1500px;
+
+    margin: auto;
+
+    padding: 35px;
+
+    min-height: 1000px;
+
+    /*
+       NỀN Ô LY
+    */
+
+    background-color: #fafdfd;
+
+    background-image:
+        linear-gradient(#dce9ee 1px, transparent 1px),
+        linear-gradient(90deg, #dce9ee 1px, transparent 1px);
+
+    background-size: 20px 20px;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.35);
+
+    position: relative;
+}
+
+
+/* =========================
+   ĐẦU LỚP
+========================= */
+
+.class-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 45px;
+}
+
+.door {
+
+    font-weight: 700;
+
+    padding: 12px 18px;
+
+    border: 2px solid #58758d;
+
+    background: rgba(255,255,255,0.8);
+
+    border-radius: 4px;
+}
+
+.teacher-table {
+
+    font-weight: 700;
+
+    padding: 15px 35px;
+
+    border: 2px solid #58758d;
+
+    background: rgba(255,255,255,0.8);
+
+    border-radius: 4px;
+
+}
+
+
+/* =========================
+   TIÊU ĐỀ
+========================= */
+
+.title {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.title h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    letter-spacing: 1px;
+}
+
+.title p {
+
+    margin-top: 8px;
+
+    color: #61778b;
+}
+
+
+/* =========================
+   4 TỔ
+========================= */
+
+.teams {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+
+/* =========================
+   MỖI TỔ
+========================= */
+
+.team {
+
+    min-width: 0;
+
+    border-left: 2px solid #c8d6df;
+
+    border-right: 2px solid #c8d6df;
+
+    padding: 0 12px 30px;
+}
+
+.team-title {
+
+    text-align: center;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    font-style: italic;
+
+    color: #4c6579;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 10px;
+
+    border-bottom: 2px solid #b9cbd5;
+}
+
+
+/* =========================
+   BÀN
+========================= */
+
+.desks {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.desk {
+
+    background: rgba(255,255,255,0.75);
+
+    border: 1px solid #9fb3c0;
+
+    border-radius: 7px;
+
+    padding: 10px;
+
+    transition: 0.2s;
+
+    position: relative;
+}
+
+.desk:hover {
+
+    background: rgba(255,255,255,0.95);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px rgba(50,70,80,0.12);
+}
+
+
+.desk-number {
+
+    font-size: 11px;
+
+    color: #7b8e9b;
+
+    margin-bottom: 7px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   Ô TÊN
+========================= */
+
+.student {
+
+    width: 100%;
+
+    height: 35px;
+
+    border: none;
+
+    border-bottom: 1px dashed #91a6b4;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #24364b;
+
+    font-size: 14px;
+
+    padding: 3px 5px;
+
+    font-weight: 500;
+}
+
+.student + .student {
+
+    margin-top: 5px;
+}
+
+.student::placeholder {
+
+    color: #9aaab5;
+
+    font-style: italic;
+}
+
+.student:focus {
+
+    border-bottom: 2px solid #58758d;
+}
+
+
+/* =========================
+   CHÚ THÍCH CUỐI LỚP
+========================= */
+
+.class-footer {
+
+    margin-top: 45px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #627989;
+
+    font-size: 14px;
+}
+
+.exit {
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .teams {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .topbar {
+
+        padding: 0 15px;
+
+    }
+
+    .logo {
+
+        font-size: 19px;
+
+    }
+
+    .top-buttons button {
+
+        padding: 9px;
+
+        font-size: 12px;
+
+    }
+
+    .page {
+
+        padding: 10px;
+
+    }
+
+    .classroom {
+
+        padding: 18px;
+
+    }
+
+    .teams {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .class-header {
+
+        margin-bottom: 25px;
+
+    }
+
+    .teacher-table {
+
+        padding: 10px;
+
+        font-size: 12px;
+
+    }
+
+}
+
+
+/* =========================
+   IN KHI CẦN
+========================= */
+
+@media print {
+
+    .topbar {
+
+        display: none;
+
+    }
+
+    body {
+
+        background: white;
+
+    }
+
+    .page {
+
+        padding: 0;
+
+    }
+
+    .classroom {
+
+        box-shadow: none;
+
+        max-width: none;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     THANH CÔNG CỤ
+========================= -->
+
+<header class="topbar">
+
+    <div class="logo">
+        🎓 ClassHub
+    </div>
+
+    <div class="top-buttons">
+
+        <button onclick="saveSeats()">
+            💾 Lưu sơ đồ
+        </button>
+
+        <button onclick="window.print()">
+            🖨️ In
+        </button>
+
+        <button class="clear-btn" onclick="clearSeats()">
+            🗑️ Xóa tên
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     TRANG
+========================= -->
+
+<main class="page">
+
+
+<div class="classroom">
+
+
+    <!-- ĐẦU LỚP -->
+
+    <div class="class-header">
+
+        <div class="door">
+            🚪 Cửa vào
+        </div>
+
+        <div class="teacher-table">
+            🧑‍🏫 BÀN GIÁO VIÊN
+        </div>
+
+    </div>
+
+
+
+    <!-- TIÊU ĐỀ -->
+
+    <div class="title">
+
+        <h1>SƠ ĐỒ LỚP</h1>
+
+        <p>Nhấn vào ô tên để nhập học sinh</p>
+
+    </div>
+
+
+
+    <!-- =========================
+         4 TỔ
+    ========================= -->
+
+    <div class="teams">
+
+
+        <!-- =====================
+             TỔ 1
+        ====================== -->
+
+        <section class="team">
+
+            <div class="team-title">
+                TỔ 1
+            </div>
+
+            <div class="desks">
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 01</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 02</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 03</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 04</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 05</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 06</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 07</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 08</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 09</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+                <div class="desk">
+                    <div class="desk-number">BÀN 10</div>
+                    <input class="student" placeholder="Học sinh 1">
+                    <input class="student" placeholder="Học sinh 2">
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================
+             TỔ 2
+        ====================== -->
+
+        <section class="team">
+
+            <div class="team-title">
+                TỔ 2
+            </div>
+
+            <div class="desks">
+
+                <!-- 10 BÀN -->
+
+                <script>
+                    for (let i = 1; i <= 10; i++) {
+
+                        document.write(`
+                            <div class="desk">
+                                <div class="desk-number">
+                                    BÀN ${String(i).padStart(2,'0')}
+                                </div>
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 1"
+                                >
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 2"
+                                >
+                            </div>
+                        `);
+
+                    }
+                </script>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================
+             TỔ 3
+        ====================== -->
+
+        <section class="team">
+
+            <div class="team-title">
+                TỔ 3
+            </div>
+
+            <div class="desks">
+
+                <script>
+
+                    for (let i = 1; i <= 10; i++) {
+
+                        document.write(`
+                            <div class="desk">
+                                <div class="desk-number">
+                                    BÀN ${String(i).padStart(2,'0')}
+                                </div>
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 1"
+                                >
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 2"
+                                >
+                            </div>
+                        `);
+
+                    }
+
+                </script>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================
+             TỔ 4
+        ====================== -->
+
+        <section class="team">
+
+            <div class="team-title">
+                TỔ 4
+            </div>
+
+            <div class="desks">
+
+                <script>
+
+                    for (let i = 1; i <= 10; i++) {
+
+                        document.write(`
+                            <div class="desk">
+                                <div class="desk-number">
+                                    BÀN ${String(i).padStart(2,'0')}
+                                </div>
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 1"
+                                >
+
+                                <input
+                                    class="student"
+                                    placeholder="Học sinh 2"
+                                >
+                            </div>
+                        `);
+
+                    }
+
+                </script>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         CUỐI SƠ ĐỒ
+    ========================= -->
+
+    <div class="class-footer">
+
+        <div class="exit">
+            ← Cửa lớp
+        </div>
+
+        <div>
+            ClassHub • Sơ đồ lớp
+        </div>
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+
+<script>
+
+/* =========================
+   LƯU TÊN
+========================= */
+
+function saveSeats() {
+
+    const students =
+        document.querySelectorAll(".student");
+
+    const names = [];
+
+    students.forEach(input => {
+
+        names.push(input.value);
+
+    });
+
+    localStorage.setItem(
+        "classHubStudents",
+        JSON.stringify(names)
+    );
+
+    alert("✅ Đã lưu sơ đồ lớp!");
+
+}
+
+
+/* =========================
+   TẢI TÊN ĐÃ LƯU
+========================= */
+
+function loadSeats() {
+
+    const saved =
+        localStorage.getItem(
+            "classHubStudents"
+        );
+
+    if (!saved) return;
+
+    const names =
+        JSON.parse(saved);
+
+    const students =
+        document.querySelectorAll(".student");
+
+    students.forEach((input, index) => {
+
+        if (names[index] !== undefined) {
+
+            input.value = names[index];
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   XÓA TÊN
+========================= */
+
+function clearSeats() {
+
+    const confirmClear =
+        confirm(
+            "Bạn có chắc muốn xóa toàn bộ tên học sinh?"
+        );
+
+    if (!confirmClear) return;
+
+    const students =
+        document.querySelectorAll(".student");
+
+    students.forEach(input => {
+
+        input.value = "";
+
+    });
+
+    localStorage.removeItem(
+        "classHubStudents"
+    );
+
+}
+
+
+/* =========================
+   CHẠY KHI MỞ TRANG
+========================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    loadSeats
+);
+
+</script>
+
+
+</body>
+</html>
